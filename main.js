@@ -5,10 +5,6 @@ var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', async (req, res) => {  
-  res.send('eWeLink API Server');
-});
-
 app.post('/on/:deviceid', async (req, res) => {  
   console.log('on',req.params.deviceid);
   const connection = new ewelink({
@@ -47,6 +43,7 @@ app.post('/toggle/:deviceid', async (req, res) => {
 
 app.post('/state/:deviceid', async (req, res) => {
   console.log('state',req.params.deviceid);
+  console.log('state',req.params.deviceid,req.body.email,req.body.password,req.body.region);
   const connection = new ewelink({
     email: req.body.email,
     password: req.body.password,
@@ -56,6 +53,7 @@ app.post('/state/:deviceid', async (req, res) => {
   res.type('json');
   res.send(result);
 });
+
 
 app.get('/region', async (req, res) => {
   console.log('region',req.params.deviceid);
@@ -67,6 +65,13 @@ app.get('/region', async (req, res) => {
   res.type('json');
   res.send(result);
 });
+
+
+app.get('*', async (req, res) => {  
+  res.send('eWeLink API Server');
+});
+
+
 
 
 var server = app.listen(8700, function () {
