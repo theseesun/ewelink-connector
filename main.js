@@ -57,43 +57,24 @@ app.post('/state/:deviceid', async (req, res) => {
   res.send(result);
 });
 
+app.get('/region', async (req, res) => {
+  console.log('region',req.params.deviceid);
+  const connection = new ewelink({
+    email: req.query.email,
+    password: req.query.password
+  });
+  const result = await connection.getRegion();
+  res.type('json');
+  res.send(result);
+});
+
+
 var server = app.listen(8700, function () {
   var host = server.address().address;
   var port = server.address().port;
   
   console.log('Server is working : PORT - ',port);
 });
-
-/*
-async function getdevices(connection) {
-    try {
-        const devices = await connection.getDevices();
-        var data = new Object();
-        data.result = "SUCCESS";       
-        console.log(devices);  
-        return devices;
-    }
-    catch (rejectedValue) {
-      var data = new Object();
-      data.result = "FAIL";
-      return JSON.stringify(data);
-    }
-}
-
-async function getDevicePowerState(connection, deviceid) {
-  try {
-    const status = await connection.getDevicePowerState(deviceid);
-    status['result'] = "SUCCESS";
-    console.log(status);  
-    return status;
-  }
-  catch (rejectedValue) {
-    var data = new Object();
-    data.result = "FAIL";
-    return JSON.stringify(data);
-  }
-}
-*/
 
 async function setDevicePowerState(connection, deviceid, cmd) {
   try {
