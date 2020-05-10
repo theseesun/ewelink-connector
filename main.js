@@ -5,6 +5,10 @@ var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/', async (req, res) => {  
+  res.send('eWeLink API Server');
+});
+
 app.post('/on/:deviceid', async (req, res) => {  
   console.log('on',req.params.deviceid);
   const connection = new ewelink({
